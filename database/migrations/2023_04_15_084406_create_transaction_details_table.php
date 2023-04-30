@@ -15,14 +15,12 @@ class CreateTransactionDetailsTable extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
-            $table->unsignedBigInteger('product_id');
+            $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('qty');
-            $table->integer('total');
+            $table->integer('price');
+            // $table->integer('total');
             $table->timestamps();
-
-            $table->foreign('transaction_id')->references('id')->on('transactions');
-            $table->foreign('product_id')->references('id')->on('products');
         });
     }
     /**

@@ -15,16 +15,18 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->date('transaction_time');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('recipient');
+            $table->string('receipt')->nullable();
+            $table->string('city');
+            $table->string('province');
             $table->string('address');
+            $table->string('postal');
             $table->string('expedition');
             $table->integer('shipping_price');
             $table->integer('total');
-            $table->enum('status', ['success', 'paymentReview', 'paid', 'progress', 'shipping', 'canceled', 'finished']);
+            $table->enum('status', ['success', 'paymentReview', 'rejected', 'process', 'shipping', 'finished']);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
     
